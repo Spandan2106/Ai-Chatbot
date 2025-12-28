@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -70,7 +71,12 @@ app.use(express.static(distPath));
 
 // Handle React routing, return all requests to React app
 app.get("*", (req, res) => {
-  res.sendFile(path.join(distPath, "index.html"));
+  const indexPath = path.join(distPath, "index.html");
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send("<h1>404 Not Found</h1><p>The client build files are missing.</p><p>If you are running locally, run <code>npm run build</code>.</p><p>If you are on Render, ensure the Build Command is <code>npm install && npm run build</code>.</p>");
+  }
 });
 
 const PORT = process.env.PORT || 3001;
