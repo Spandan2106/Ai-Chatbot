@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 const app = express();
+app.set("trust proxy", 1); // Trust Render's load balancer for secure connection detection
 app.use(cors());
 app.use(express.json());
 

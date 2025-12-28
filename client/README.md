@@ -72,6 +72,7 @@ This project is configured to be deployed easily on Render.
     - **Start Command**: `npm run server`
 5.  **Environment Variables**:
     - Add `GEMINI_API_KEY` with your Google API key.
+    - Add `VITE_API_BASE` with value `/` (this ensures the frontend talks to the deployed backend).
 
 ## 🛡️ Privacy Note
 
