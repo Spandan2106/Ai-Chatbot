@@ -20,9 +20,6 @@ if (!process.env.GEMINI_API_KEY) {
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Root route to verify server is running
-app.get("/", (req, res) => res.send("🤖 AI Chatbot Server is running!"));
-
 // Health check
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
