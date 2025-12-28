@@ -1,7 +1,10 @@
 export async function sendChat({ model, messages, signal }) {
   // Smart URL: Use relative path in production, localhost in development
   const isProd = import.meta.env.PROD;
-  const BASE_URL = import.meta.env.VITE_API_BASE || (isProd ? "" : "http://localhost:3001");
+  let BASE_URL = import.meta.env.VITE_API_BASE || (isProd ? "" : "http://localhost:3001");
+
+  // Fix: If BASE_URL is just "/", clear it so we don't get "//api/chat"
+  if (BASE_URL === "/") BASE_URL = "";
 
   const response = await fetch(`${BASE_URL}/api/chat`, {
     method: "POST",

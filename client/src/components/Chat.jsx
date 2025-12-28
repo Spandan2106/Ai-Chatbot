@@ -18,7 +18,8 @@ export default function Chat() {
   const abortControllerRef = useRef(null);
 
   const isProd = import.meta.env.PROD;
-  const backendUrl = import.meta.env.VITE_API_BASE || (isProd ? window.location.origin : "http://localhost:3001");
+  let backendUrl = import.meta.env.VITE_API_BASE || (isProd ? window.location.origin : "http://localhost:3001");
+  if (backendUrl === "/") backendUrl = window.location.origin;
 
   const canSend = useMemo(() => input.trim().length > 0 && !loading, [input, loading]);
 
