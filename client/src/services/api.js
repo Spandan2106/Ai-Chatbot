@@ -1,14 +1,21 @@
-const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:3001"; 
+export async function sendChat({ model, messages, signal }) {
+  // Smart URL: Use relative path in production, localhost in development
+  const isProd = import.meta.env.PROD;
+  const BASE_URL = import.meta.env.VITE_API_BASE || (isProd ? "" : "http://localhost:3001");
 
-export async function sendChat({ model, messages }) {
-  const res = await fetch(`${API_BASE}/api/chat`, {
+  const response = await fetch(`${BASE_URL}/api/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ model, messages }),
+    signal,
   });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || `HTTP ${res.status}`);
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `Server error: ${response.status}`);
   }
-  return res.json();
+
+  return await response.json();
 }

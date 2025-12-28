@@ -17,6 +17,9 @@ export default function Chat() {
   const bottomRef = useRef(null);
   const abortControllerRef = useRef(null);
 
+  const isProd = import.meta.env.PROD;
+  const backendUrl = import.meta.env.VITE_API_BASE || (isProd ? window.location.origin : "http://localhost:3001");
+
   const canSend = useMemo(() => input.trim().length > 0 && !loading, [input, loading]);
 
   useEffect(() => {
@@ -179,7 +182,7 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          <div className="small" style={{ marginTop: 8 }}>Backend: <code>{import.meta.env.VITE_API_BASE || "http://127.0.0.1:3001"}</code> • Set <code>GEMINI_API_KEY</code> on the server.</div>
+          <div className="small" style={{ marginTop: 8 }}>Backend: <code>{backendUrl}</code> • Set <code>GEMINI_API_KEY</code> on the server.</div>
         </div>
       </div>
     </div>
